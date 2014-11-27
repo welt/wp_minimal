@@ -1,0 +1,37 @@
+{
+  "name": "WP_boilerplate",
+  "description": "Minimal boilerplate for WordPress.",
+  "wp_theme_name": "My Theme Name",
+  "wp_theme_text_domain": "theme_name",
+  "wp_theme_uri": "http://www.example.com",
+  "wp_theme_description": "My theme description",
+  "wp_theme_author": "My theme author name",
+  "wp_theme_author_uri": "http://www.example.com",
+  "wp_theme_version": "0.5",
+  "version": "0.0.1",
+  "keywords": [
+    "Wordpress",
+    "Live reload",
+    "SASS",
+    "Minimal",
+    "Scaffold"
+  ],
+  "author": "welt",
+  "license": "BSD",
+  "devDependencies": {
+    "bower": "~1.3.12",
+    "grunt": "~0.4.5",
+    "grunt-autoprefixer": "~0.2.0",
+    "grunt-bower-task": "^0.4.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-imagemin": "~0.9.2",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-sass": "~0.8.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-svgmin": "~0.2.0"
+  },
+  "dependencies": {
+    "time-grunt": "^1.0.0"
+  }
+}

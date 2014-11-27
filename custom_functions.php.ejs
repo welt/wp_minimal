@@ -1,0 +1,99 @@
+<?php
+
+// THEME NAME REGISTER SCRIPTS AND STYLES
+//
+if ( ! function_exists( '<%= pkg.wp_theme_text_domain %>_loader' ) ):
+
+	function <%= pkg.wp_theme_text_domain %>_loader() {
+		// store this theme's version
+		$t = wp_get_theme();
+		$theme = $t->get( 'Version' );
+		$name = $t->get( 'Name' );
+		$params = array( 'testing' => 'test string');
+		// Theme Style
+		wp_register_style( '<%= pkg.wp_theme_text_domain %>', get_stylesheet_uri(), false, $theme);
+		wp_enqueue_style( '<%= pkg.wp_theme_text_domain %>' );
+		// IE styles
+		wp_register_style( 'ie-style', get_bloginfo( 'stylesheet_directory' ) . '/css/ie.css', false, $theme );
+		wp_style_add_data( 'ie-style', 'conditional', 'lte IE 8' );
+		wp_enqueue_style( 'ie-style' );
+		// Scripts
+		wp_register_script( 'modernizr', get_bloginfo('template_url') . '/javascripts/libs/modernizr.js', false, $theme, false );
+		wp_enqueue_script( 'modernizr' );
+		wp_register_script( 'bootstrap_js', get_bloginfo('template_url') . '/javascripts/libs/bootstrap.js', array( 'jquery'), $theme, true );
+		wp_enqueue_script( 'bootstrap_js.' );
+		wp_register_script( '<%= pkg.wp_theme_text_domain %>_custom', get_bloginfo('template_url') . '/javascripts/<%= pkg.wp_theme_text_domain %>_custom.js', array( 'jquery'), $theme, true );
+		wp_enqueue_script( '<%= pkg.wp_theme_text_domain %>_custom' );
+		// send over js params to browser Window if required, sent to CDATA in footer
+		wp_localize_script( '<%= pkg.wp_theme_text_domain %>_custom', '<%= pkg.wp_theme_text_domain %>_site', $params );
+	}
+
+	if ( !is_admin() ) {
+		add_action( 'wp_enqueue_scripts', '<%= pkg.wp_theme_text_domain %>_loader' );
+	}
+
+endif;
+
+// THEME NAME SETUP THEME
+//
+if ( ! function_exists( '<%= pkg.wp_theme_text_domain %>_setup' ) ):
+
+	function <%= pkg.wp_theme_text_domain %>_setup() {
+
+		// CLEANUP WORDPRESS <HEAD>
+		//
+		remove_action( 'wp_head', 'feed_links_extra', 3 );
+		remove_action( 'wp_head', 'feed_links', 2 );
+		remove_action( 'wp_head', 'rsd_link' );
+		remove_action( 'wp_head', 'wlwmanifest_link' );
+		remove_action( 'wp_head', 'index_rel_link' );
+		remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 );
+		remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
+		remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 );
+		remove_action( 'wp_head', 'wp_generator' );
+
+		// ENABLE HTML5 SEARCH FORM
+		//
+		add_theme_support('html5', array('search-form'));
+
+		// POST THUMBNAIL SUPPORT
+		//
+		add_theme_support( 'post-thumbnails' );
+
+		// THIS THEME USES WP_NAV_MENU() IN TWO LOCATIONS
+		//
+		register_nav_menus( array(
+			/* slug => __(translatable description , text domain) */
+			'primary' => __( 'Primary Navigation', '<%= pkg.wp_theme_text_domain %>' ),
+			'secondary' => __( 'Secondary Navigation', '<%= pkg.wp_theme_text_domain %>' ),
+		) );
+
+		// REMOVE THE ADMIN BAR FROM THE FRONT END
+		//
+		add_filter( 'show_admin_bar', '__return_false' );
+
+		// BOOTSTRAP NAV WALKER
+		// https://github.com/twittem/wp-bootstrap-navwalker
+		//
+		require_once('includes/wp_bootstrap_navwalker.php');
+
+	}
+	add_action( 'after_setup_theme', '<%= pkg.wp_theme_text_domain %>_setup' );
+
+endif;
+
+if ( ! function_exists( '<%= pkg.wp_theme_text_domain %>_live_reload_script' ) ):
+
+	// LIVE RELOAD ... ONLY ON LOCALHOST
+	//
+	function <%= pkg.wp_theme_text_domain %>_live_reload_script() {
+		wp_register_script('livereload', 'http://localhost:35729/livereload.js?snipver=1', null, false, true);
+		wp_enqueue_script('livereload');
+	}
+
+	if ( (in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')) && !is_admin() )) {
+		add_action( 'wp_enqueue_scripts', '<%= pkg.wp_theme_text_domain %>_live_reload_script' );
+	}
+
+endif;
+
