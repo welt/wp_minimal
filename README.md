@@ -16,7 +16,7 @@ JavaScripts are left alone:
 3. use WordPress's own copy of jQuery
 4. you can use a plugin to concatenate scripts in production e.g. MinQueue
 
-### Depends: SASS Gem, Bower, Grunt CLI
+### Depends: Node, SASS Gem, Bower, Grunt CLI
 
 1. edit package.json with details of the project - required for WordPress style.css & scaffolding tasks
 2. `$> npm install`
